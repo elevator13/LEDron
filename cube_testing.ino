@@ -60,32 +60,36 @@ void setup()
     pinMode(otherPins[i], OUTPUT);
     digitalWrite(otherPins[i], LOW);
   }
-  //digitalWrite(latchPin,LOW);
+  digitalWrite(latchPin,HIGH);
+  //digitalWrite(otherPins[3],HIGH);
   digitalWrite(curLayer,HIGH);
 }
 
 void loop()
 {
-  if (curLayer == 8)
-    return;
-  delay(300);
+  //if (curLayer == 8)
+    //return;
+  delay(500);
   /*Cycle the clocks.  Will iterate from 0 to 7, then
    *switch to a new layer and repeat.
    */
+  digitalWrite(latchPin,HIGH); 
   bto(clock1Pin, counter & 1);
   bto(clock2Pin, counter & 2);
   bto(clock3Pin, counter & 4);
+ 
   counter++;
   if (counter >= 8)
   {
     counter = 0;
     /*Will only turn on one column at a time,
      *instead of continuously lighting new columns.*/
-    //digitalWrite(curLayer,LOW);
+    digitalWrite(curLayer,HIGH);
     curLayer++;
     curLayer = curLayer % 8;
-    digitalWrite(curLayer,HIGH);
+    digitalWrite(curLayer,LOW);
   }
+   digitalWrite(latchPin,LOW);
   /*
   counter++;
   if (counter > 1000)
